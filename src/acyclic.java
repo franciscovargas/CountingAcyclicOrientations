@@ -90,13 +90,41 @@ public class acyclic {
         return isEmpty(digraph);  
     }
 
+    /**
+     *  Possibly never used **/
+    public static int getEdgeCount(boolean[][] graph){
+        int count =0;
+        for (int i =0; i < graph.length ; i++ ) {
+            for (int j =0; j < i ; j ++ ) {
+                if(graph[i][j])
+                    count++;
+            }
+        }
+        return count;
+    }
+
     /** The method below will implement a simple algorithm
      * which takes an 2 dimensional matrix representing a 
      * undirected graph, and generates and returns a random
      * uniform orientation of that graph. **/
  
     public static boolean[][] uniformOrient(boolean[][] graph) {
-        return null;    /** placeholder **/
+        int n = graph.length;
+        boolean[][] digraph = new boolean[n][n];
+        Random generator = new Random();
+
+        for (int i =0; i < graph.length ; i++ ) {
+            for (int j =0; j < i ; j ++ ) {
+                if(graph[i][j]){
+                    if(generator.nextInt(2)==0)
+                        digraph[i][j] = true;
+                    else
+                        digraph[j][i] = true;
+                }
+            }
+        }
+ 
+        return digraph;    /** placeholder **/
     }
 
     /** The method below will implement a simple algorithm
