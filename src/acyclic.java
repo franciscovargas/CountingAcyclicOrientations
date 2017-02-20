@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 import java.lang.Math;
@@ -10,6 +9,67 @@ import java.lang.Math;
 
 public class acyclic {
 
+    /** This O(n^2) method
+     *  checks if E in G(V,E) is the empty set 
+     *  Complexity O(n^2) **/
+    public static boolean isEmpty(boolean digraph[][]){
+        for (int i =0;i < digraph.length ; i++ ) {
+            for (int j = 0; j < digraph.length ; j++ ) {
+                if(i!=j && digraph[i][j])
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    /** Checks that a node is not 
+     *  Detached from a graph in O(n) **/
+    public static boolean isStronglyConnected(boolean digraph[][],
+                                       int node){
+        for(int i=0; i < digraph.length; i++){
+            if(i!= node && digraph[i][node])
+                return true;
+        }
+        return false;
+    }
+
+    /** The method below will implement an Algorithm to
+     * take a 2-dimensional square matrix representing a
+     * directed graph, and a node and determine if it
+     * is a sink Computational complexity O(n)**/
+    public static boolean isSink (boolean digraph[][],
+                                  int node) {   
+        for(int i=0; i < digraph.length; i++){
+            if(digraph[node][i])
+                return false;
+        }
+        return isStronglyConnected(digraph, node); 
+    }
+
+    /** The method below will implement an Algorithm to
+     * take a 2-dimensional square matrix representing a
+     * directed graph, and check for the next non removed 
+     * sink Computational complexity O(n^2)
+     * when sink found return the node number else return
+     * -1 **/
+    public static int getNearestSink(boolean digraph[][]){
+        
+        for (int i = 0; i < digraph.length ; i++) {
+            if (isSink(digraph, i))
+                return i;
+        }
+        return -1;
+    }
+
+    /** this method detaches a sink from a graph
+     *  Complexity is O(n) **/
+    public static void removeAllIncidentEdges(boolean digraph[][],
+                                              int node){
+        for(int i =0; i < digraph.length; i++){
+            if(i != node)
+                digraph[i][node] = false;
+        }
+    }
 
     /** The method below will implement an Algorithm to
      * take a 2-dimensional square matrix representing a
@@ -17,7 +77,17 @@ public class acyclic {
      * is acyclic. **/
 
     public static boolean isDAG (boolean digraph[][]) {   
-	return true;   /** placeholder **/ 
+        int n = digraph.length;
+        boolean existSink = true;
+        while(existSink){
+            int nextSink  = getNearestSink(digraph);
+            if(nextSink != -1)
+                removeAllIncidentEdges(digraph, nextSink);
+            else
+                existSink = false;
+        }
+
+        return isEmpty(digraph);  
     }
 
     /** The method below will implement a simple algorithm
@@ -26,7 +96,7 @@ public class acyclic {
      * uniform orientation of that graph. **/
  
     public static boolean[][] uniformOrient(boolean[][] graph) {
-	return true;    /** placeholder **/
+        return null;    /** placeholder **/
     }
 
     /** The method below will implement a simple algorithm
@@ -36,12 +106,12 @@ public class acyclic {
      * random model G_{n,p}.  **/   
 
     public static boolean[][] erdosRenyi(int n, double p) {
-	boolean[][] graph = new boolean[n][n];
-	Random generator = new Random();
-	return graph;  /** placeholder **/ 
+        boolean[][] graph = new boolean[n][n];
+        Random generator = new Random();
+        return graph;  /** placeholder **/ 
     }
-	 
-	
+     
+    
     /** The method below will implement a dynamic programming 
      * algorithm to exactly evaluate the expected number of 
      * acyclic orientations in the random graph model G_{n,p}.
@@ -50,7 +120,7 @@ public class acyclic {
      **/
 
     public static double expErdosRenyi(int n, double p) {
-	return 0.0;  /** placeholder **/
+        return 0.0;  /** placeholder **/
     }
 
     /**
