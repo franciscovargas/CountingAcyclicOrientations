@@ -113,7 +113,7 @@ public class acyclic {
         boolean[][] digraph = new boolean[n][n];
         Random generator = new Random();
 
-        for (int i =0; i < graph.length ; i++ ) {
+        for (int i =0; i < n ; i++ ) {
             for (int j =0; j < i ; j ++ ) {
                 if(graph[i][j]){
                     if(generator.nextInt(2)==0)
@@ -136,6 +136,18 @@ public class acyclic {
     public static boolean[][] erdosRenyi(int n, double p) {
         boolean[][] graph = new boolean[n][n];
         Random generator = new Random();
+
+        for (int i =0; i < n ; i++) {
+            for (int j =0; j < i ; j++ ) {
+                if(i !=j){
+                    if(generator.nextDouble() <= p ){
+                        graph[i][j] = true;
+                        graph[j][i] = true;
+                    }
+                }
+            }
+            
+        }
         return graph;  /** placeholder **/ 
     }
      
